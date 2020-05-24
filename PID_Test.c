@@ -24,7 +24,7 @@ float TestSystem_Update(float inp);
 int main()
 {
     /* Initialise PID controller */
-    PIDController pid = { PID_KP, PID_KI, PID_KD,
+    PIDController pid = { PID_KP, PID_KI, -PID_KD,
                           PID_TAU,
                           PID_LIM_MIN, PID_LIM_MAX,
                           SAMPLE_TIME_S };

@@ -72,6 +72,13 @@ float PIDController_Update(PIDController *pid, float setpoint, float measurement
 	/*
 	* Derivative (band-limited differentiator)
 	*/
+	
+	/* Note: since using derivative-on-measurement, Kd needs to be negative (in contrast to conventional 'derivative-on'error') 
+	*
+	*  If you prefer, you can include the minus sign in this calculation (i.e. -2.0f * pid->Kd ....) and then use a positive Kd
+	*
+	*/
+	
     pid->differentiator = (2.0f * pid->Kd * (measurement - pid->prevMeasurement)	/* Note: derivative on measurement! */
                         + (2.0f * pid->tau - pid->T) * pid->differentiator)
                         / (2.0f * pid->tau + pid->T);
