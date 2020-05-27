@@ -6,7 +6,7 @@ typedef struct {
 	/* Controller gains */
 	float Kp;
 	float Ki;
-	float Kd; /* Note: since using derivative-on-measurement, Kd needs to be negative (in contrast to conventional 'derivative-on'error') */
+	float Kd;
 
 	/* Derivative low-pass filter time constant */
 	float tau;
