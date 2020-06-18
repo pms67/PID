@@ -14,6 +14,10 @@ typedef struct {
 	/* Output limits */
 	float limMin;
 	float limMax;
+	
+	/* Integrator limits */
+	float limMinInt;
+	float limMaxInt;
 
 	/* Sample time (in seconds) */
 	float T;

@@ -8,10 +8,13 @@
 #define PID_KI  0.5f
 #define PID_KD  0.25f
 
-#define PID_TAU 0.01f
+#define PID_TAU 0.02f
 
 #define PID_LIM_MIN -10.0f
 #define PID_LIM_MAX  10.0f
+
+#define PID_LIM_MIN_INT -5.0f
+#define PID_LIM_MAX_INT  5.0f
 
 #define SAMPLE_TIME_S 0.01f
 
@@ -27,6 +30,7 @@ int main()
     PIDController pid = { PID_KP, PID_KI, -PID_KD,
                           PID_TAU,
                           PID_LIM_MIN, PID_LIM_MAX,
+						  PID_LIM_MIN_INT, PID_LIM_MAX_INT,
                           SAMPLE_TIME_S };
 
     PIDController_Init(&pid);
