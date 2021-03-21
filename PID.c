@@ -32,16 +32,7 @@ float PIDController_Update(PIDController *pid, float setpoint, float measurement
 	*/
     pid->integrator = pid->integrator + 0.5f * pid->Ki * pid->T * (error + pid->prevError);
 
-	/* Anti-wind-up via integrator clamping */
-    if (pid->integrator > pid->limMaxInt) {
-
-        pid->integrator = pid->limMaxInt;
-
-    } else if (pid->integrator < pid->limMinInt) {
-
-        pid->integrator = pid->limMinInt;
-
-    }
+    /* Anti-windup moved below */
 
 
 	/*
@@ -60,10 +51,14 @@ float PIDController_Update(PIDController *pid, float setpoint, float measurement
 
     if (pid->out > pid->limMax) {
 
+        /* Anti-wind-up for over-saturated output */
+        pid->integrator += pid->limMax - pid->out;
         pid->out = pid->limMax;
 
     } else if (pid->out < pid->limMin) {
 
+        /* Anti-wind-up for under-saturated output */
+        pid->integrator += pid->limMin - pid->out;
         pid->out = pid->limMin;
 
     }
