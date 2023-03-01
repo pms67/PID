@@ -1,4 +1,5 @@
 #include "PID.h"
+#include <math.h>
 
 void PIDController_Init(PIDController *pid) {
 
@@ -30,7 +31,9 @@ float PIDController_Update(PIDController *pid, float setpoint, float measurement
 	/*
 	* Integral
 	*/
-    pid->integrator = pid->integrator + 0.5f * pid->Ki * pid->T * (error + pid->prevError);
+    pid->integrator = (fabs(error) < 2.0f && setpoint == 0.0f)
+        ? 0
+        : pid->integrator + 0.5f * pid->Ki * pid->T * (error + pid->prevError);
 
 	/* Anti-wind-up via integrator clamping */
     if (pid->integrator > pid->limMaxInt) {
@@ -56,7 +59,7 @@ float PIDController_Update(PIDController *pid, float setpoint, float measurement
 	/*
 	* Compute output and apply limits
 	*/
-    pid->out = proportional + pid->integrator + pid->differentiator;
+    pid->out = pid->limMin + proportional + pid->integrator + pid->differentiator;
 
     if (pid->out > pid->limMax) {
 
