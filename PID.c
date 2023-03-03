@@ -75,7 +75,7 @@ float PIDController_Update(PIDController *pid, float setpoint, float measurement
     pid->prevError       = error;
     pid->prevMeasurement = measurement;
     if (measurement <= 10.0)
-        pid->out_up_to_10 = pid->out;
+        pid->out_up_to_10 = pid->out - pid->limMin;
 
 	/* Return controller output */
     return pid->out;
