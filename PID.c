@@ -11,7 +11,7 @@ void PIDController_Init(PIDController *pid) {
 	pid->prevMeasurement = 0.0f;
 
 	pid->out = 0.0f;
-
+    pid->out_up_to_10 = 0.0f;
 }
 
 float PIDController_Update(PIDController *pid, float setpoint, float measurement) {
@@ -59,7 +59,7 @@ float PIDController_Update(PIDController *pid, float setpoint, float measurement
 	/*
 	* Compute output and apply limits
 	*/
-    pid->out = pid->limMin + proportional + pid->integrator + pid->differentiator + (measurement > 10.0 ? pid->out : 0);
+    pid->out = pid->limMin + proportional + pid->integrator + pid->differentiator + (measurement > 10.0 ? pid->out_up_to_10 : 0);
 
     if (pid->out > pid->limMax) {
 
@@ -74,6 +74,8 @@ float PIDController_Update(PIDController *pid, float setpoint, float measurement
 	/* Store error and measurement for later use */
     pid->prevError       = error;
     pid->prevMeasurement = measurement;
+    if (measurement <= 10.0)
+        pid->out_up_to_10 = pid->out;
 
 	/* Return controller output */
     return pid->out;

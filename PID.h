@@ -30,6 +30,7 @@ typedef struct {
 
 	/* Controller output */
 	float out;
+	float out_up_to_10;
 
 } PIDController;
 
