@@ -59,7 +59,7 @@ float PIDController_Update(PIDController *pid, float setpoint, float measurement
 	/*
 	* Compute output and apply limits
 	*/
-    pid->out = pid->limMin + proportional + pid->integrator + pid->differentiator;
+    pid->out = pid->limMin + proportional + pid->integrator + pid->differentiator + (measurement > 10.0 ? pid->out : 0);
 
     if (pid->out > pid->limMax) {
 
